@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TMDB Movie App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: TextTheme(
           headline4: GoogleFonts.montserrat(
