@@ -4,13 +4,12 @@ class Movie {
   String? overview;
   String? releaseDate;
   String? originalLanguage;
-  double? popularity;
+  num? popularity;
   int? voteCount;
   num? voteAverage;
+  List<dynamic>? genreIds;
   int? id;
   String? title;
-
-  final String _imagePath = "https://image.tmdb.org/t/p/original";
 
   Movie({
     this.posterPath,
@@ -21,6 +20,7 @@ class Movie {
     this.popularity,
     this.voteCount,
     this.voteAverage,
+    this.genreIds,
     this.id,
     this.title,
   });
@@ -39,6 +39,7 @@ class Movie {
       posterPath: json['poster_path'],
       releaseDate: json['release_date'],
       title: json['title'],
+      genreIds: json['genre_ids'],
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
     );
