@@ -3,7 +3,8 @@ import 'package:tmdb_movie_app/viewModel/home_view_model.dart';
 
 class SearchBar extends StatelessWidget {
   const SearchBar({
-    Key? key, required this.viewModel,
+    Key? key,
+    required this.viewModel,
   }) : super(key: key);
   final HomeViewModel viewModel;
 
@@ -16,10 +17,10 @@ class SearchBar extends StatelessWidget {
             color: Color(0xff34353e),
             borderRadius: BorderRadius.all(Radius.circular(10))),
         height: 50,
-        child:  TextField(
+        child: TextField(
           onChanged: (value) => viewModel.onChangeFilter(value),
-          style: TextStyle(color: Color(0xff6b6d71), fontSize: 20),
-          decoration: InputDecoration(
+          style: const TextStyle(color: Color(0xff6b6d71), fontSize: 20),
+          decoration: const InputDecoration(
             hintText: "Search movie...",
             hintStyle: TextStyle(color: Color(0xff6b6d71), fontSize: 20),
             prefixIcon: Icon(

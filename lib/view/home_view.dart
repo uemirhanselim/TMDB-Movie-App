@@ -23,39 +23,7 @@ class HomeView extends StatelessWidget {
                 children: [
                   SearchBar(viewModel: viewModel),
                   Expanded(
-                    child: GridView.builder(
-                      controller: viewModel.controller,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10,
-                              mainAxisExtent: 290,
-                              mainAxisSpacing: 24),
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: viewModel.isLoadingMore
-                          ? movies.length + 1
-                          : movies.length,
-                      itemBuilder: (context, index) {
-                        if (index < movies.length) {
-                          return InkWell(
-                            onTap: () =>
-                                viewModel.goToDetails(context, movies[index]),
-                            child: MovieCard(
-                              name: movies[index].title ?? 'Could not fetch',
-                              rate: movies[index].voteAverage ?? 0,
-                              url: movies[index].posterPath ??
-                                  'https://www.shutterstock.com/image-vector/caution-exclamation-mark-white-red-260nw-1055269061.jpg',
-                            ),
-                          );
-                        }
-                        return const Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: 40),
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      },
-                    ),
+                    child: _gridView(viewModel, movies),
                   ),
                 ],
               ),
@@ -63,6 +31,38 @@ class HomeView extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  GridView _gridView(HomeViewModel viewModel, List<Movie> movies) {
+    return GridView.builder(
+      controller: viewModel.controller,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisExtent: 290,
+          mainAxisSpacing: 24),
+      physics: const BouncingScrollPhysics(),
+      itemCount: viewModel.isLoadingMore ? movies.length + 1 : movies.length,
+      itemBuilder: (context, index) {
+        if (index < movies.length) {
+          return InkWell(
+            onTap: () => viewModel.goToDetails(context, movies[index]),
+            child: MovieCard(
+              name: movies[index].title ?? 'Could not fetch',
+              rate: movies[index].voteAverage ?? 0,
+              url: movies[index].posterPath ??
+                  'https://www.shutterstock.com/image-vector/caution-exclamation-mark-white-red-260nw-1055269061.jpg',
+            ),
+          );
+        }
+        return const Padding(
+          padding: EdgeInsets.only(top: 10, bottom: 40),
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
     );
   }
 }

@@ -14,19 +14,7 @@ class DetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff1c1c27),
-      appBar: AppBar(
-        backgroundColor: const Color(0xff1c1c27),
-        leading: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back)),
-        title: Text(
-          movie.title!,
-          style: Theme.of(context)
-              .textTheme
-              .headline4!
-              .copyWith(fontSize: 20, letterSpacing: 0.4),
-        ),
-      ),
+      appBar: _appBar(context),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -64,26 +52,7 @@ class DetailView extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<Genre> genres = snapshot.data!;
-                      return SizedBox(
-                        height: 50,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: movie.genreIds!.length,
-                          itemBuilder: (context, index) {
-                            for (int i = 0; i < genres.length; i++) {
-                              if (genres[i].id == movie.genreIds![index]) {
-                                viewModel.chosedGenres.add(genres[i].name);
-                              }
-                            }
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 10, top: 5),
-                              child: Chip(
-                                  label: Text(viewModel.chosedGenres[index]!)),
-                            );
-                          },
-                        ),
-                      );
+                      return _listView(genres, viewModel);
                     }
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -99,6 +68,44 @@ class DetailView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  SizedBox _listView(List<Genre> genres, DetailViewModel viewModel) {
+    return SizedBox(
+      height: 50,
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: movie.genreIds!.length,
+        itemBuilder: (context, index) {
+          for (int i = 0; i < genres.length; i++) {
+            if (genres[i].id == movie.genreIds![index]) {
+              viewModel.chosedGenres.add(genres[i].name);
+            }
+          }
+          return Padding(
+            padding: const EdgeInsets.only(right: 10, top: 5),
+            child: Chip(label: Text(viewModel.chosedGenres[index]!)),
+          );
+        },
+      ),
+    );
+  }
+
+  AppBar _appBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: const Color(0xff1c1c27),
+      leading: InkWell(
+          onTap: () => Navigator.pop(context),
+          child: const Icon(Icons.arrow_back)),
+      title: Text(
+        movie.title!,
+        style: Theme.of(context)
+            .textTheme
+            .headline4!
+            .copyWith(fontSize: 20, letterSpacing: 0.4),
       ),
     );
   }
