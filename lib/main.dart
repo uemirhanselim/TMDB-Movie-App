@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tmdb_movie_app/view/detail_view.dart';
 import 'package:tmdb_movie_app/view/home_view.dart';
+import 'package:tmdb_movie_app/viewModel/detail_view_model.dart';
 import 'package:tmdb_movie_app/viewModel/home_view_model.dart';
 
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => HomeViewModel()),
+      ChangeNotifierProvider(create: (context) => DetailViewModel()),
     ],
     child: const MyApp(),
   ));
@@ -19,9 +21,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'TMDB Movie App',
-      home: HomeView(),
+      theme: ThemeData(
+        textTheme: TextTheme(
+          headline4: GoogleFonts.montserrat(
+              textStyle: const TextStyle(
+                  color: Colors.white, fontSize: 16, letterSpacing: 1.2)),
+        ),
+      ),
+      home: const HomeView(),
     );
   }
 }
